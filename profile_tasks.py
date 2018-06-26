@@ -28,7 +28,7 @@ class CallbackModule(CallbackBase):
         try:
             conn = psycopg2.connect(host= "localhost",
                       user="postgres",
-                      passwd="",
+                      passwd="none",
                       db="metrics")
             print("xxxxxxxxxx connected to db xxxxxxxxxxxxxx")
         except:
@@ -39,7 +39,7 @@ class CallbackModule(CallbackBase):
             x.execute("""CREATE TABLE IF NOT EXISTS %s (
             id int(11) NOT NULL AUTO_INCREMENT,
             name varchar(255),
-            time_elapsed TIME,sudo usermod -aG docker
+            time_elapsed TIME,
             date DATE,
             PRIMARY KEY (id)
             );)""", (self.current)
@@ -50,8 +50,8 @@ class CallbackModule(CallbackBase):
         x.close()
 
     def record_task(self, stats):
-        conn = MySQLdb.connect(host= "localhost",
-                  user="root",
+        conn = psychopg2.connect(host= "localhost",
+                  user="postgres",
                   passwd="none",
                   db="metrics")
         x = conn.cursor()
