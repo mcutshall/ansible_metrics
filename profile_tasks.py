@@ -1,7 +1,7 @@
 import datetime
 import os
 import time
-import MySQLdb
+import psycopg2
 from ansible.plugins.callback import CallbackBase
 
 
@@ -14,32 +14,39 @@ class CallbackModule(CallbackBase):
         self.stats = {}
         self.current = None
 
-    def db_connect(self):
-        conn = MySQLdb.connect(host= "localhost",
-                  user="root",
-                  passwd="none",
-                  db="metrics")
-        x = conn.cursor()
-
-        print("xxxxxxxxxx connected to db xxxxxxxxxxxxxx")
-        conn.close()
+    # def db_connect(self):
+    #     conn = MySQLdb.connect(host= "localhost",
+    #               user="root",
+    #               passwd="none",
+    #               db="metrics")
+    #     x = conn.cursor()
+    #
+    #     print("xxxxxxxxxx connected to db xxxxxxxxxxxxxx")
+    #     conn.close()
 
     def create_playbook_table(self):
-        conn = MySQLdb.connect(host= "localhost",
-                  user="root",
-                  passwd="none",
-                  db="metrics")
-        x = conn.cursor()
-        print("xxxxxxxxxx connected to db xxxxxxxxxxxxxx")
+        try:
+            conn = psycopg2.connect(host= "localhost",
+                      user="postgres",
+                      passwd="",
+                      db="metrics")
+            print("xxxxxxxxxx connected to db xxxxxxxxxxxxxx")
+        except:
+            print "Cannot connect to database."
 
-        x.execute("""CREATE TABLE IF NOT EXISTS %s (
-        id int(11) NOT NULL AUTO_INCREMENT,
-        name varchar(255),
-        time_elapsed TIME,sudo usermod -aG docker
-        date DATE,
-        PRIMARY KEY (id)
-        );)""", (self.current)
-        print("xxxxxxxxxxxxxxx self.current: " + self.current)
+        x = conn.cursor()
+        try:
+            x.execute("""CREATE TABLE IF NOT EXISTS %s (
+            id int(11) NOT NULL AUTO_INCREMENT,
+            name varchar(255),
+            time_elapsed TIME,sudo usermod -aG docker
+            date DATE,
+            PRIMARY KEY (id)
+            );)""", (self.current)
+        except:
+            print "Cannot create table."
+
+        #print("xxxxxxxxxxxxxxx self.current: " + self.current)
         x.close()
 
     def record_task(self, stats):
