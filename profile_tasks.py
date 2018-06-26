@@ -42,7 +42,7 @@ class CallbackModule(CallbackBase):
             time_elapsed TIME,
             date DATE,
             PRIMARY KEY (id)
-            );)""", (self.current)
+            );)""", (self.current))
         except:
             print "Cannot create table."
 
