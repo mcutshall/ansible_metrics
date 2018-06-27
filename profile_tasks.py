@@ -1,9 +1,8 @@
+from ansible.plugins.callback import CallbackBase
 import datetime
 import os
 import time
 import psycopg2
-from ansible.plugins.callback import CallbackBase
-
 
 class CallbackModule(CallbackBase):
     """
@@ -69,9 +68,9 @@ class CallbackModule(CallbackBase):
 
         # Insert the timings
         for name, elapsed in results:
-            x.execute("""INSERT INTO %s name, time_elapsed VALUES (%s, %s)""", (self,name, elapsed))
+            x.execute("""INSERT INTO %s name, time_elapsed VALUES (%s, %s)""", (self.name, elapsed))
 
-        x.execute("""INSERT INTO %s name, time_elapsed VALUES (%s, %s)""", (self, self.name, self.elapsed))
+        #x.execute("""INSERT INTO %s name, time_elapsed VALUES (%s, %s)""", (self, self.name, self.elapsed))
 
         x.close()
 
