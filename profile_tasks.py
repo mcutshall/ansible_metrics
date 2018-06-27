@@ -5,9 +5,9 @@ import time
 import psycopg2
 
 class CallbackModule(CallbackBase):
-    """
-    A plugin for timing tasks
-    """
+    # """
+    # A plugin for timing tasks
+    # """
     def __init__(self):
         super(CallbackModule, self).__init__()
         self.stats = {}
@@ -23,61 +23,61 @@ class CallbackModule(CallbackBase):
     #     print("xxxxxxxxxx connected to db xxxxxxxxxxxxxx")
     #     conn.close()
 
-    def create_playbook_table(self):
-        try:
-            conn = psycopg2.connect(host= "localhost",
-                      user="postgres",
-                      passwd="none",
-                      db="metrics")
-            print("xxxxxxxxxx connected to db xxxxxxxxxxxxxx")
-        except:
-            print "Cannot connect to database."
+    # def create_playbook_table(self):
+    #     try:
+    #         conn = psycopg2.connect(host= "localhost",
+    #                   user="postgres",
+    #                   passwd="none",
+    #                   db="metrics")
+    #         print("xxxxxxxxxx connected to db xxxxxxxxxxxxxx")
+    #     except:
+    #         print ("Cannot connect to database.")
+    #
+    #     x = conn.cursor()
+    #     try:
+    #         x.execute("""CREATE TABLE IF NOT EXISTS %s (
+    #         id int(11) NOT NULL AUTO_INCREMENT,
+    #         name varchar(255),
+    #         time_elapsed TIME,
+    #         date DATE,
+    #         PRIMARY KEY (id)
+    #         );""", (self.current))
+    #     except:
+    #         print ("Cannot create table.")
+    #
+    #     #print("xxxxxxxxxxxxxxx self.current: " + self.current)
+    #     x.close()
 
-        x = conn.cursor()
-        try:
-            x.execute("""CREATE TABLE IF NOT EXISTS %s (
-            id int(11) NOT NULL AUTO_INCREMENT,
-            name varchar(255),
-            time_elapsed TIME,
-            date DATE,
-            PRIMARY KEY (id)
-            );)""", (self.current))
-        except:
-            print "Cannot create table."
-
-        #print("xxxxxxxxxxxxxxx self.current: " + self.current)
-        x.close()
-
-    def record_task(self, stats):
-        conn = psychopg2.connect(host= "localhost",
-                  user="postgres",
-                  passwd="none",
-                  db="metrics")
-        x = conn.cursor()
-
-        # Record the timing of the very last task
-        if self.current is not None:
-            self.stats[self.current] = time.time() - self.stats[self.current]
-
-        # Sort the tasks by their running time
-        results = sorted(
-            self.stats.items(),
-            key=lambda value: value[1],
-            reverse=True,
-        )
-
-        # Insert the timings
-        for name, elapsed in results:
-            x.execute("""INSERT INTO %s name, time_elapsed VALUES (%s, %s)""", (self.name, elapsed))
-
-        #x.execute("""INSERT INTO %s name, time_elapsed VALUES (%s, %s)""", (self, self.name, self.elapsed))
-
-        x.close()
+    # def record_task(self, stats):
+    #     conn = psychopg2.connect(host= "localhost",
+    #               user="postgres",
+    #               passwd="none",
+    #               db="metrics")
+    #     x = conn.cursor()
+    #
+    #     # Record the timing of the very last task
+    #     if self.current is not None:
+    #         self.stats[self.current] = time.time() - self.stats[self.current]
+    #
+    #     # Sort the tasks by their running time
+    #     results = sorted(
+    #         self.stats.items(),
+    #         key=lambda value: value[1],
+    #         reverse=True,
+    #     )
+    #
+    #     # Insert the timings
+    #     for name, elapsed in results:
+    #         x.execute("INSERT INTO %s name, time_elapsed VALUES (%s, %s)", (self.name, elapsed))
+    #
+    #     #x.execute("""INSERT INTO %s name, time_elapsed VALUES (%s, %s)""", (self, self.name, self.elapsed))
+    #
+    #     x.close()
 
     def playbook_on_task_start(self, name, is_conditional):
-        """
-        Logs the start of each task
-        """
+        # """
+        # Logs the start of each task
+        # """
 
         if os.getenv("ANSIBLE_PROFILE_DISABLE") is not None:
             return
@@ -91,9 +91,9 @@ class CallbackModule(CallbackBase):
         self.stats[self.current] = time.time()
 
     def playbook_on_stats(self, stats):
-        """
-        Prints the timings
-        """
+        # """
+        # Prints the timings
+        # """
 
         if os.getenv("ANSIBLE_PROFILE_DISABLE") is not None:
             return
@@ -110,16 +110,44 @@ class CallbackModule(CallbackBase):
         )
 
         # Just keep the top 10
-        results = results[:10]
+        #results = results[:10]
+
+        # Create table based on task
+        try:
+            conn = psycopg2.connect(host= "localhost",
+                      user="postgres",
+                      passwd="none",
+                      db="metrics")
+            print("xxxxxxxxxx connected to db xxxxxxxxxxxxxx")
+        except:
+            print ("Cannot connect to database.")
+
+        x = conn.cursor()
+        try:
+            x.execute("""CREATE TABLE IF NOT EXISTS %s (
+            id int(11) NOT NULL AUTO_INCREMENT,
+            name varchar(255),
+            time_elapsed TIME,
+            date DATE,
+            PRIMARY KEY (id)
+            );""", (self.current))
+        except:
+            print ("Cannot create table.")
+
+        for name, elapsed in results:
+            x.execute("INSERT INTO %s name, time_elapsed VALUES (%s, %s)", (self.name, elapsed))
+
+        #print("xxxxxxxxxxxxxxx self.current: " + self.current)
+        x.close()
 
         # Print the timings
-        for name, elapsed in results:
-            print(
-                "{0:-<70}{1:->9}".format(
-                    '{0} '.format(name),
-                    ' {0:.02f}s'.format(elapsed),
-                )
-            )
+        # for name, elapsed in results:
+        #     print(
+        #         "{0:-<70}{1:->9}".format(
+        #             '{0} '.format(name),
+        #             ' {0:.02f}s'.format(elapsed),
+        #         )
+        #     )
 
         total_seconds = sum([x[1] for x in self.stats.items()])
         print("\nPlaybook finished: {0}, {1} total tasks.  {2} elapsed. \n".format(
