@@ -113,6 +113,7 @@ class CallbackModule(CallbackBase):
         #results = results[:10]
 
         # Create table based on task
+        conn = None
         try:
             conn = psycopg2.connect("dbname=metrics, user=postgres, password=none")
             print("xxxxxxxxxx connected to db xxxxxxxxxxxxxx")
