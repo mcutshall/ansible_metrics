@@ -116,11 +116,12 @@ class CallbackModule(CallbackBase):
         conn = None
         try:
             conn = psycopg2.connect("dbname=metrics, user=postgres, password=none")
+            x = conn.cursor()
             print("xxxxxxxxxx connected to db xxxxxxxxxxxxxx")
         except:
             print ("Cannot connect to database.")
 
-        x = conn.cursor()
+
         sql = """CREATE TABLE IF NOT EXISTS %s (
             id int(11) NOT NULL SERIAL PRIMARY KEY,
             name varchar(255),
