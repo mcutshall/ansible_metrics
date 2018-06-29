@@ -114,24 +114,26 @@ class CallbackModule(CallbackBase):
 
         # Create table based on task
         try:
-            conn = psycopg2.connect("dbname='metrics', user='postgres', password='none'")
+            conn = psycopg2.connect("dbname=metrics, user=postgres, password=none")
             print("xxxxxxxxxx connected to db xxxxxxxxxxxxxx")
         except:
             print ("Cannot connect to database.")
 
         x = conn.cursor()
-        try:
-            x.execute("""CREATE TABLE IF NOT EXISTS %s (
+        sql = """CREATE TABLE IF NOT EXISTS %s (
             id int(11) NOT NULL SERIAL PRIMARY KEY,
             name varchar(255),
             time_elapsed TIME,
-            date_ran DATE
-            );""", (self.current))
+            date_ran DATE);"""
+        try:
+            x.execute(sql, (self.current))
         except:
             print ("Cannot create table.")
 
+        sql = """INSERT INTO %s (name, time_elapsed) VALUES (%s, %s)"""
+
         for y in results:
-            x.execute("""INSERT INTO %s (name, time_elapsed) VALUES (%s, %s)""", (self.current, name, elapsed))
+            x.execute(sql, (self.current, name, elapsed))
 
         #print("xxxxxxxxxxxxxxx self.current: " + self.current)
         x.close()
