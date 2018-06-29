@@ -122,17 +122,16 @@ class CallbackModule(CallbackBase):
         x = conn.cursor()
         try:
             x.execute("""CREATE TABLE IF NOT EXISTS %s (
-            id int(11) NOT NULL AUTO_INCREMENT,
+            id int(11) NOT NULL SERIAL PRIMARY KEY,
             name varchar(255),
             time_elapsed TIME,
-            date DATE,dbname='metrics'
-            PRIMARY KEY (id)
+            date_ran DATE
             );""", (self.current))
         except:
             print ("Cannot create table.")
 
         for y in results:
-            x.execute("""INSERT INTO %s name, time_elapsed VALUES (%s, %s)""", (self.current, name, elapsed))
+            x.execute("""INSERT INTO %s (name, time_elapsed) VALUES (%s, %s)""", (self.current, name, elapsed))
 
         #print("xxxxxxxxxxxxxxx self.current: " + self.current)
         x.close()
