@@ -120,11 +120,11 @@ class CallbackModule(CallbackBase):
             #params = config()
             #conn = psycopg2.connect("dbname=metrics, user=postgres, password=none")
             #conn = psycopg2.connect(**params)
-            conn = psycopg2.connect(host="localhost",database="metrics", user="postgres", password="none")
+            conn = psycopg2.connect(host="local.atmo.cloud",database="metrics", user="postgres", password="none")
             x = conn.cursor()
             print("xxxxxxxxxx connected to db xxxxxxxxxxxxxx")
         except:
-            print ("Cannot connect to database.")
+            print ("xxxxxx Cannot connect to database. xxxxxx")
 
 
         sql = """CREATE TABLE IF NOT EXISTS %s (
@@ -135,7 +135,7 @@ class CallbackModule(CallbackBase):
         try:
             x.execute(sql, (self.current))
         except:
-            print ("Cannot create table.")
+            print ("xxxxxx Cannot create table. xxxxxx")
 
         sql = """INSERT INTO %s (name, time_elapsed) VALUES (%s, %s)"""
 
