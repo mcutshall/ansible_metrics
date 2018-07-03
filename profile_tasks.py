@@ -1,4 +1,5 @@
 from ansible.plugins.callback import CallbackBase
+from config import config
 import datetime
 import os
 import time
@@ -115,7 +116,10 @@ class CallbackModule(CallbackBase):
         # Create table based on task
         conn = None
         try:
-            conn = psycopg2.connect("dbname=metrics, user=postgres, password=none")
+            #params = config()
+            #conn = psycopg2.connect("dbname=metrics, user=postgres, password=none")
+            #conn = psycopg2.connect(**params)
+            conn = psycopg2.connect(host="localhost",database="metrics", user="postgres", password="none")
             x = conn.cursor()
             print("xxxxxxxxxx connected to db xxxxxxxxxxxxxx")
         except:
