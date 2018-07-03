@@ -145,10 +145,12 @@ class CallbackModule(CallbackBase):
             print ("xxxxxx Cannot create table. xxxxxx")
 
         #sql = """INSERT INTO %s (name, time_elapsed) VALUES (%s, %s)"""
-
-        for y in results:
-            #x.execute(sql, (self.current, name, elapsed))
-            x.execute("""INSERT INTO %s (name, time_elapsed) VALUES (%s, %s)""", (self.current, name, elapsed))
+        try:
+            for y in results:
+                #x.execute(sql, (self.current, name, elapsed))
+                x.execute("""INSERT INTO %s (name, time_elapsed) VALUES (%s, %s)""", (self.current, name, elapsed))
+        except:
+            print("xxxx Cannot Insert Data. xxxx")
 
         #print("xxxxxxxxxxxxxxx self.current: " + self.current)
         x.close()
