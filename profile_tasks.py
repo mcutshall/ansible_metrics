@@ -127,20 +127,28 @@ class CallbackModule(CallbackBase):
             print ("xxxxxx Cannot connect to database. xxxxxx")
 
 
-        sql = """CREATE TABLE IF NOT EXISTS %s (
-            id int(11) NOT NULL SERIAL PRIMARY KEY,
-            name varchar(255),
-            time_elapsed TIME,
-            date_ran DATE);"""
+        # sql = """CREATE TABLE IF NOT EXISTS %s (
+        #     id int(11) NOT NULL SERIAL PRIMARY KEY,
+        #     name varchar(255),
+        #     time_elapsed TIME,
+        #     date_ran DATE);"""
         try:
-            x.execute(sql, (self.current))
+            #x.execute(sql, (self.current))
+            x.execute("""CREATE TABLE IF NOT EXISTS %s (
+                id int(11) NOT NULL SERIAL PRIMARY KEY,
+                name varchar(255),
+                time_elapsed TIME,
+                date_ran DATE);""", (self.current))
+
+            print("xxxx table created. xxxx")
         except:
             print ("xxxxxx Cannot create table. xxxxxx")
 
-        sql = """INSERT INTO %s (name, time_elapsed) VALUES (%s, %s)"""
+        #sql = """INSERT INTO %s (name, time_elapsed) VALUES (%s, %s)"""
 
         for y in results:
-            x.execute(sql, (self.current, name, elapsed))
+            #x.execute(sql, (self.current, name, elapsed))
+            x.execute("""INSERT INTO %s (name, time_elapsed) VALUES (%s, %s)""", (self.current, name, elapsed))
 
         #print("xxxxxxxxxxxxxxx self.current: " + self.current)
         x.close()
