@@ -1,5 +1,5 @@
 from ansible.plugins.callback import CallbackBase
-from config import config
+#from config import config
 import datetime
 import os
 import time
@@ -115,6 +115,7 @@ class CallbackModule(CallbackBase):
 
         # Create table based on task
         conn = None
+        x = None
         try:
             #params = config()
             #conn = psycopg2.connect("dbname=metrics, user=postgres, password=none")
