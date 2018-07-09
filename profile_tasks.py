@@ -120,7 +120,7 @@ class CallbackModule(CallbackBase):
             #params = config()
             #conn = psycopg2.connect("dbname=metrics, user=postgres, password=none")
             #conn = psycopg2.connect(**params)
-            conn = psycopg2.connect(host="local.atmo.cloud",database="metrics", user="postgres", password="none")
+            conn = psycopg2.connect(host="localhost",database="metrics", user="postgres", password="none")
             x = conn.cursor()
             print("xxxxxxxxxx connected to db xxxxxxxxxxxxxx")
         except:
