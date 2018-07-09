@@ -122,9 +122,9 @@ class CallbackModule(CallbackBase):
             #conn = psycopg2.connect(**params)
             conn = psycopg2.connect(host="localhost", database="metrics", user="postgres", password="none")
             x = conn.cursor()
-            print("xxxxxxxxxx connected to db xxxxxxxxxxxxxx")
+            print("Succesfully connected to db.")
         except Exception as e:
-            print ("xxxxxx Cannot connect to database. xxxxxx")
+            print ("Error connecting to database: ", e)
             print (e)
 
 
@@ -141,9 +141,9 @@ class CallbackModule(CallbackBase):
                 time_elapsed TEXT,
                 date_time TIMESTAMP);""", (self.current))
 
-            print("xxxx table created. xxxx")
+            print("Succesfully created table.")
         except Exception as e:
-            print ("xxxxxx Cannot create table. xxxxxx")
+            print ("Error creating table: ", e)
             print (e)
 
         #sql = """INSERT INTO %s (name, time_elapsed) VALUES (%s, %s)"""
@@ -151,8 +151,9 @@ class CallbackModule(CallbackBase):
             for y in results:
                 #x.execute(sql, (self.current, name, elapsed))
                 x.execute("""INSERT INTO %s (name, time_elapsed) VALUES (%s, %s)""", (self.current, name, elapsed))
-        except:
-            print("xxxx Cannot Insert Data. xxxx")
+            print("Succesfully inserted data.")
+        except Exception as e:
+            print("Error inserting data: ", e)
 
         #print("xxxxxxxxxxxxxxx self.current: " + self.current)
         x.close()
