@@ -135,10 +135,10 @@ class CallbackModule(CallbackBase):
         try:
             #x.execute(sql, (self.current))
             x.execute("""CREATE TABLE IF NOT EXISTS %s (
-                id int(11) NOT NULL SERIAL PRIMARY KEY,
-                name varchar(255),
-                time_elapsed TIME,
-                date_ran DATE);""", (self.current))
+                id INTEGER NOT NULL SERIAL PRIMARY KEY,
+                task_name VARCHAR(255),
+                time_elapsed VARCHAR(255)
+                date_time TIMESTAMP);""", (self.current))
 
             print("xxxx table created. xxxx")
         except:
