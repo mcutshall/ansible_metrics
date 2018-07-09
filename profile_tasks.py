@@ -125,7 +125,6 @@ class CallbackModule(CallbackBase):
             print("Succesfully connected to db.")
         except Exception as e:
             print ("Error connecting to database: ", e)
-            print (e)
 
 
         # sql = """CREATE TABLE IF NOT EXISTS %s (
@@ -144,7 +143,6 @@ class CallbackModule(CallbackBase):
             print("Succesfully created table.")
         except Exception as e:
             print ("Error creating table: ", e)
-            print (e)
 
         #sql = """INSERT INTO %s (name, time_elapsed) VALUES (%s, %s)"""
         try:
