@@ -123,8 +123,9 @@ class CallbackModule(CallbackBase):
             conn = psycopg2.connect(host="localhost", database="metrics", user="postgres", password="none")
             x = conn.cursor()
             print("xxxxxxxxxx connected to db xxxxxxxxxxxxxx")
-        except:
+        except Exception as e:
             print ("xxxxxx Cannot connect to database. xxxxxx")
+            print (e)
 
 
         # sql = """CREATE TABLE IF NOT EXISTS %s (
@@ -141,8 +142,9 @@ class CallbackModule(CallbackBase):
                 date_time TIMESTAMP);""", (self.current))
 
             print("xxxx table created. xxxx")
-        except:
+        except Exception as e:
             print ("xxxxxx Cannot create table. xxxxxx")
+            print (e)
 
         #sql = """INSERT INTO %s (name, time_elapsed) VALUES (%s, %s)"""
         try:
