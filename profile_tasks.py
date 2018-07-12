@@ -91,7 +91,7 @@ class CallbackModule(CallbackBase):
         self.current = name
         self.stats[self.current] = time.time()
 
-    def playbook_on_stats(self, name, stats):
+    def playbook_on_stats(self, stats):
         # """
         # Prints the timings
         # """
@@ -132,22 +132,22 @@ class CallbackModule(CallbackBase):
         #     name varchar(255),
         #     time_elapsed TIME,
         #     date_ran DATE);"""
-        try:
-            #x.execute(sql, (self.current))
-            x.execute("""CREATE TABLE IF NOT EXISTS deploy_tasks (
-                id SERIAL PRIMARY KEY,
-                task_name VARCHAR(255) NOT NULL,
-                time_elapsed VARCHAR(255) NOT NULL,
-                date_time TIMESTAMP);""")
-            print("Succesfully created table.")
-        except Exception as e:
-            print ("Error creating table: " + e)
+        # try:
+        #     #x.execute(sql, (self.current))
+        #     x.execute("""CREATE TABLE IF NOT EXISTS deploy_tasks (
+        #         id SERIAL PRIMARY KEY,
+        #         task_name VARCHAR(255) NOT NULL,
+        #         time_elapsed VARCHAR(255) NOT NULL,
+        #         date_time TIMESTAMP);""")
+        #     print("Succesfully created table.")
+        # except Exception as e:
+        #     print ("Error creating table: " + e)
 
         #sql = """INSERT INTO %s (name, time_elapsed) VALUES (%s, %s)"""
         try:
             for name, elapsed in results:
                 #x.execute(sql, (self.current, name, elapsed))
-                x.execute("""INSERT INTO tasks (name, time_elapsed) VALUES (%s, %s)""", (name, elapsed))
+                x.execute("""INSERT INTO tasks (task_name, time_elapsed) VALUES (%s, %s)""", (name, elapsed))
             print("Succesfully inserted data.")
         except Exception as e:
             print("Error inserting data: " + e)
