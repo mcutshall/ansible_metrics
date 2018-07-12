@@ -138,14 +138,14 @@ class CallbackModule(CallbackBase):
                 id SERIAL PRIMARY KEY,
                 task_name VARCHAR(255) NOT NULL,
                 time_elapsed VARCHAR(255) NOT NULL,
-                date_time TIMESTAMP NOT NULL)""")
+                date_time TIMESTAMP);""")
             print("Succesfully created table.")
         except Exception as e:
             print ("Error creating table: " + e)
 
         #sql = """INSERT INTO %s (name, time_elapsed) VALUES (%s, %s)"""
         try:
-            for y in results:
+            for name, elapsed in results:
                 #x.execute(sql, (self.current, name, elapsed))
                 x.execute("""INSERT INTO tasks (name, time_elapsed) VALUES (%s, %s)""", (name, elapsed))
             print("Succesfully inserted data.")
