@@ -139,7 +139,7 @@ class CallbackModule(CallbackBase):
                 id SERIAL PRIMARY KEY,
                 task_name TEXT,
                 time_elapsed TEXT,
-                date_time TIMESTAMP);""", (self.current))
+                date_time TIMESTAMP);""", (str(self.current)))
 
             print("Succesfully created table.")
         except Exception as e:
