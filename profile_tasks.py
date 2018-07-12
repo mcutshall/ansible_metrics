@@ -164,10 +164,10 @@ class CallbackModule(CallbackBase):
         #         )
         #     )
 
-        total_seconds = sum([x[1] for x in self.stats.items()])
-        print("\nPlaybook finished: {0}, {1} total tasks.  {2} elapsed. \n".format(
-                time.asctime(),
-                len(self.stats.items()),
-                datetime.timedelta(seconds=(int(total_seconds)))
-                )
-          )
+        # total_seconds = sum([x[1] for x in self.stats.items()])
+        # print("\nPlaybook finished: {0}, {1} total tasks.  {2} elapsed. \n".format(
+        #         time.asctime(),
+        #         len(self.stats.items()),
+        #         datetime.timedelta(seconds=(int(total_seconds)))
+        #         )
+        #   )
