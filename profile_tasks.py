@@ -124,7 +124,7 @@ class CallbackModule(CallbackBase):
             x = conn.cursor()
             print("Succesfully connected to db.")
         except Exception as e:
-            print ("Error connecting to database: ", e)
+            print ("Error connecting to database: " + e)
 
 
         # sql = """CREATE TABLE IF NOT EXISTS %s (
@@ -134,14 +134,14 @@ class CallbackModule(CallbackBase):
         #     date_ran DATE);"""
         try:
             #x.execute(sql, (self.current))
-            x.execute("""CREATE TABLE IF NOT EXISTS tasks (
+            x.execute("""CREATE TABLE IF NOT EXISTS deploy_tasks (
                 id SERIAL PRIMARY KEY,
-                task_name VARCHAR(255),
-                time_elapsed VARCHAR(255),
-                date_time TIMESTAMP)""")
+                task_name VARCHAR(255) NOT NULL,
+                time_elapsed VARCHAR(255) NOT NULL,
+                date_time TIMESTAMP NOT NULL)""")
             print("Succesfully created table.")
         except Exception as e:
-            print ("Error creating table: ", e)
+            print ("Error creating table: " + e)
 
         #sql = """INSERT INTO %s (name, time_elapsed) VALUES (%s, %s)"""
         try:
@@ -150,7 +150,7 @@ class CallbackModule(CallbackBase):
                 x.execute("""INSERT INTO tasks (name, time_elapsed) VALUES (%s, %s)""", (name, elapsed))
             print("Succesfully inserted data.")
         except Exception as e:
-            print("Error inserting data: ", e)
+            print("Error inserting data: " + e)
 
         #print("xxxxxxxxxxxxxxx self.current: " + self.current)
         x.close()
