@@ -14,67 +14,6 @@ class CallbackModule(CallbackBase):
         self.stats = {}
         self.current = None
 
-    # def db_connect(self):
-    #     conn = MySQLdb.connect(host= "localhost",
-    #               user="root",
-    #               passwd="none",
-    #               db="metrics")
-    #     x = conn.cursor()
-    #
-    #     print("xxxxxxxxxx connected to db xxxxxxxxxxxxxx")
-    #     conn.close()
-
-    # def create_playbook_table(self):
-    #     try:
-    #         conn = psycopg2.connect(host= "localhost",
-    #                   user="postgres",
-    #                   passwd="none",
-    #                   db="metrics")
-    #         print("xxxxxxxxxx connected to db xxxxxxxxxxxxxx")
-    #     except:
-    #         print ("Cannot connect to database.")
-    #
-    #     x = conn.cursor()
-    #     try:
-    #         x.execute("""CREATE TABLE IF NOT EXISTS %s (
-    #         id int(11) NOT NULL AUTO_INCREMENT,
-    #         name varchar(255),
-    #         time_elapsed TIME,
-    #         date DATE,
-    #         PRIMARY KEY (id)
-    #         );""", (self.current))
-    #     except:
-    #         print ("Cannot create table.")
-    #
-    #     #print("xxxxxxxxxxxxxxx self.current: " + self.current)
-    #     x.close()
-
-    # def record_task(self, stats):
-    #     conn = psychopg2.connect(host= "localhost",
-    #               user="postgres",
-    #               passwd="none",
-    #               db="metrics")
-    #     x = conn.cursor()
-    #
-    #     # Record the timing of the very last task
-    #     if self.current is not None:
-    #         self.stats[self.current] = time.time() - self.stats[self.current]
-    #
-    #     # Sort the tasks by their running time
-    #     results = sorted(
-    #         self.stats.items(),
-    #         key=lambda value: value[1],
-    #         reverse=True,
-    #     )
-    #
-    #     # Insert the timings
-    #     for name, elapsed in results:
-    #         x.execute("INSERT INTO %s name, time_elapsed VALUES (%s, %s)", (self.name, elapsed))
-    #
-    #     #x.execute("""INSERT INTO %s name, time_elapsed VALUES (%s, %s)""", (self, self.name, self.elapsed))
-    #
-    #     x.close()
-
     def playbook_on_task_start(self, name, is_conditional):
         # """
         # Logs the start of each task
@@ -143,7 +82,6 @@ class CallbackModule(CallbackBase):
         # except Exception as e:
         #     print ("Error creating table: " + e)
 
-        #sql = """INSERT INTO %s (name, time_elapsed) VALUES (%s, %s)"""
         try:
             for name, elapsed in results:
                 #x.execute(sql, (self.current, name, elapsed))
