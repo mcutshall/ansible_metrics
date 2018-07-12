@@ -147,7 +147,7 @@ class CallbackModule(CallbackBase):
         try:
             for name, elapsed in results:
                 #x.execute(sql, (self.current, name, elapsed))
-                x.execute("""INSERT INTO tasks (task_name, time_elapsed) VALUES (%s, %s)""", (name, elapsed))
+                x.execute("""INSERT INTO deploy_tasks (task_name, time_elapsed) VALUES (%s, %s)""", (name, elapsed))
             print("Succesfully inserted data.")
         except Exception as e:
             print("Error inserting data: " + e)
