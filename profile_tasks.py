@@ -115,20 +115,3 @@ class CallbackModule(CallbackBase):
         #print("xxxxxxxxxxxxxxx self.current: " + self.current)
         x.close()
         conn.close()
-
-        # Print the timings
-        # for name, elapsed in results:
-        #     print(
-        #         "{0:-<70}{1:->9}".format(
-        #             '{0} '.format(name),
-        #             ' {0:.02f}s'.format(elapsed),
-        #         )
-        #     )
-
-        # total_seconds = sum([x[1] for x in self.stats.items()])
-        # print("\nPlaybook finished: {0}, {1} total tasks.  {2} elapsed. \n".format(
-        #         time.asctime(),
-        #         len(self.stats.items()),
-        #         datetime.timedelta(seconds=(int(total_seconds)))
-        #         )
-        #   )
