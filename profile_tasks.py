@@ -88,13 +88,14 @@ class CallbackModule(CallbackBase):
                 #x.execute(sql, (self.current, name, elapsed))
                 x.execute(sql, (str(name), str(elapsed),))
                 print("name: " + str(name) + " time: " + str(elapsed))
-            x.commit()
+            conn.commit()
             print("Succesfully inserted data.")
         except Exception as e:
             print("Error inserting data: " + e)
 
         #print("xxxxxxxxxxxxxxx self.current: " + self.current)
         x.close()
+        conn.close()
 
         # Print the timings
         # for name, elapsed in results:
