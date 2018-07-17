@@ -55,7 +55,6 @@ class CallbackModule(CallbackBase):
             # Connect to the postgresql database
             params = config()
             conn = psycopg2.connect(**params)
-            #conn = psycopg2.connect(host="localhost", database="metrics", user="postgres", password="none")
             x = conn.cursor()
             print("Succesfully connected to db.")
 
@@ -63,7 +62,6 @@ class CallbackModule(CallbackBase):
             sql = """INSERT INTO deploy_tasks (task_name, time_elapsed) VALUES (%s, %s);"""
             for name, elapsed in results:
                 x.execute(sql, (str(name), str(elapsed),))
-                #print("name: " + str(name) + " time: " + str(elapsed))
             conn.commit()
             print("Succesfully inserted data.")
 
