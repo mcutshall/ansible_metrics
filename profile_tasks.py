@@ -53,17 +53,35 @@ class CallbackModule(CallbackBase):
         #results = results[:10]
 
         # Create table based on task
-        try:
-            conn = None
-            x = None
-            #params = config()
-            #conn = psycopg2.connect("dbname=metrics, user=postgres, password=none")
-            #conn = psycopg2.connect(**params)
-            conn = psycopg2.connect(host="localhost", database="metrics", user="postgres", password="none")
-            x = conn.cursor()
-            print("Succesfully connected to db.")
-        except Exception as e:
-            print ("Error connecting to database: " + e)
+        # try:
+        #     conn = None
+        #     x = None
+        #     #params = config()
+        #     #conn = psycopg2.connect("dbname=metrics, user=postgres, password=none")
+        #     #conn = psycopg2.connect(**params)
+        #     conn = psycopg2.connect(host="localhost", database="metrics", user="postgres", password="none")
+        #     x = conn.cursor()
+        #     print("Succesfully connected to db.")
+        # except Exception as e:
+        #     print ("Error connecting to database: " + e)
+
+        conn = None
+        x = None
+        conn = psycopg2.connect(host="localhost", database="metrics", user="postgres", password="none")
+        x = conn.cursor()
+        print("Succesfully connected to db.")
+        # if conn != None:
+        #     print("Succesfully connected to db.")
+        # else:
+        #     print ("Error connecting to database.")
+
+        sql = """INSERT INTO deploy_tasks (task_name, time_elapsed) VALUES (%s, %s);"""
+        for name, elapsed in results:
+            #x.execute(sql, (self.current, name, elapsed))
+            x.execute(sql, (str(name), str(elapsed),))
+            conn.commit()
+            print("name: " + str(name) + " time: " + str(elapsed))
+        print("Succesfully inserted data.")
 
 
         # sql = """CREATE TABLE IF NOT EXISTS %s (
@@ -82,17 +100,17 @@ class CallbackModule(CallbackBase):
         # except Exception as e:
         #     print ("Error creating table: " + e)
 
-        try:
-            sql = """INSERT INTO deploy_tasks (task_name, time_elapsed) VALUES (%s, %s);"""
-            for name, elapsed in results:
-                #x.execute(sql, (self.current, name, elapsed))
-                x.execute(sql, (str(name), str(elapsed),))
-                x.commit()
-                conn.commit()
-                print("name: " + str(name) + " time: " + str(elapsed))
-            print("Succesfully inserted data.")
-        except Exception as e:
-            print("Error inserting data: " + e)
+        # try:
+        #     sql = """INSERT INTO deploy_tasks (task_name, time_elapsed) VALUES (%s, %s);"""
+        #     for name, elapsed in results:
+        #         #x.execute(sql, (self.current, name, elapsed))
+        #         x.execute(sql, (str(name), str(elapsed),))
+        #         x.commit()
+        #         conn.commit()
+        #         print("name: " + str(name) + " time: " + str(elapsed))
+        #     print("Succesfully inserted data.")
+        # except Exception as e:
+        #     print("Error inserting data: " + e)
 
         #print("xxxxxxxxxxxxxxx self.current: " + self.current)
         x.close()
