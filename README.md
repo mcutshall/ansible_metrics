@@ -12,4 +12,4 @@
                 date_time TIMESTAMP);
                 
 6. Alter the database.ini file to match your database, user, and password.
-7. Create a new instance wait until the "deploying" state to see any data. 
+7. Create a new instance and wait until the "deploying" state to see any data. 
