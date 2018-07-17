@@ -79,8 +79,8 @@ class CallbackModule(CallbackBase):
         for name, elapsed in results:
             #x.execute(sql, (self.current, name, elapsed))
             x.execute(sql, (str(name), str(elapsed),))
-            conn.commit()
-            print("name: " + str(name) + " time: " + str(elapsed))
+            #print("name: " + str(name) + " time: " + str(elapsed))
+        conn.commit()
         print("Succesfully inserted data.")
 
 
