@@ -1,5 +1,5 @@
 from ansible.plugins.callback import CallbackBase
-#from config import config
+from config import config
 import datetime
 import os
 import time
@@ -49,32 +49,19 @@ class CallbackModule(CallbackBase):
             reverse=True,
         )
 
-        # Just keep the top 10
-        #results = results[:10]
-
-        # Create table based on task
-        # try:
-        #     conn = None
-        #     x = None
-        #     #params = config()
-        #     #conn = psycopg2.connect("dbname=metrics, user=postgres, password=none")
-        #     #conn = psycopg2.connect(**params)
-        #     conn = psycopg2.connect(host="localhost", database="metrics", user="postgres", password="none")
-        #     x = conn.cursor()
-        #     print("Succesfully connected to db.")
-        # except Exception as e:
-        #     print ("Error connecting to database: " + e)
-
         conn = None
         x = None
         try:
-            conn = psycopg2.connect(host="localhost", database="metrics", user="postgres", password="none")
+            # Connect to the postgresql database
+            params = config()
+            conn = psycopg2.connect(**params)
+            #conn = psycopg2.connect(host="localhost", database="metrics", user="postgres", password="none")
             x = conn.cursor()
             print("Succesfully connected to db.")
 
+            # Insert task names and times
             sql = """INSERT INTO deploy_tasks (task_name, time_elapsed) VALUES (%s, %s);"""
             for name, elapsed in results:
-                #x.execute(sql, (self.current, name, elapsed))
                 x.execute(sql, (str(name), str(elapsed),))
                 #print("name: " + str(name) + " time: " + str(elapsed))
             conn.commit()
@@ -86,54 +73,3 @@ class CallbackModule(CallbackBase):
         finally:
             if conn is not None:
                 conn.close()
-
-        # conn = None
-        # x = None
-        # conn = psycopg2.connect(host="localhost", database="metrics", user="postgres", password="none")
-        # x = conn.cursor()
-        # print("Succesfully connected to db.")
-        # # if conn != None:
-        # #     print("Succesfully connected to db.")
-        # # else:
-        # #     print ("Error connecting to database.")
-        #
-        # sql = """INSERT INTO deploy_tasks (task_name, time_elapsed) VALUES (%s, %s);"""
-        # for name, elapsed in results:
-        #     #x.execute(sql, (self.current, name, elapsed))
-        #     x.execute(sql, (str(name), str(elapsed),))
-        #     #print("name: " + str(name) + " time: " + str(elapsed))
-        # conn.commit()
-        # print("Succesfully inserted data.")
-
-
-        # sql = """CREATE TABLE IF NOT EXISTS %s (
-        #     id int(11) NOT NULL SERIAL PRIMARY KEY,
-        #     name varchar(255),
-        #     time_elapsed TIME,
-        #     date_ran DATE);"""
-        # try:
-        #     #x.execute(sql, (self.current))
-        #     x.execute("""CREATE TABLE IF NOT EXISTS deploy_tasks (
-        #         id SERIAL PRIMARY KEY,
-        #         task_name VARCHAR(255) NOT NULL,
-        #         time_elapsed VARCHAR(255) NOT NULL,
-        #         date_time TIMESTAMP);""")
-        #     print("Succesfully created table.")
-        # except Exception as e:
-        #     print ("Error creating table: " + e)
-
-        # try:
-        #     sql = """INSERT INTO deploy_tasks (task_name, time_elapsed) VALUES (%s, %s);"""
-        #     for name, elapsed in results:
-        #         #x.execute(sql, (self.current, name, elapsed))
-        #         x.execute(sql, (str(name), str(elapsed),))
-        #         x.commit()
-        #         conn.commit()
-        #         print("name: " + str(name) + " time: " + str(elapsed))
-        #     print("Succesfully inserted data.")
-        # except Exception as e:
-        #     print("Error inserting data: " + e)
-
-        #print("xxxxxxxxxxxxxxx self.current: " + self.current)
-        #x.close()
-        #conn.close()
