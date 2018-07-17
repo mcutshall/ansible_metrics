@@ -67,21 +67,43 @@ class CallbackModule(CallbackBase):
 
         conn = None
         x = None
-        conn = psycopg2.connect(host="localhost", database="metrics", user="postgres", password="none")
-        x = conn.cursor()
-        print("Succesfully connected to db.")
-        # if conn != None:
-        #     print("Succesfully connected to db.")
-        # else:
-        #     print ("Error connecting to database.")
+        try:
+            conn = psycopg2.connect(host="localhost", database="metrics", user="postgres", password="none")
+            x = conn.cursor()
+            print("Succesfully connected to db.")
 
-        sql = """INSERT INTO deploy_tasks (task_name, time_elapsed) VALUES (%s, %s);"""
-        for name, elapsed in results:
-            #x.execute(sql, (self.current, name, elapsed))
-            x.execute(sql, (str(name), str(elapsed),))
-            #print("name: " + str(name) + " time: " + str(elapsed))
-        conn.commit()
-        print("Succesfully inserted data.")
+            sql = """INSERT INTO deploy_tasks (task_name, time_elapsed) VALUES (%s, %s);"""
+            for name, elapsed in results:
+                #x.execute(sql, (self.current, name, elapsed))
+                x.execute(sql, (str(name), str(elapsed),))
+                #print("name: " + str(name) + " time: " + str(elapsed))
+            conn.commit()
+            print("Succesfully inserted data.")
+
+            x.close()
+        except psycopg2.DatabaseError as error:
+            print("Database Error: " + error)
+        finally:
+            if conn is not None:
+                conn.close()
+
+        # conn = None
+        # x = None
+        # conn = psycopg2.connect(host="localhost", database="metrics", user="postgres", password="none")
+        # x = conn.cursor()
+        # print("Succesfully connected to db.")
+        # # if conn != None:
+        # #     print("Succesfully connected to db.")
+        # # else:
+        # #     print ("Error connecting to database.")
+        #
+        # sql = """INSERT INTO deploy_tasks (task_name, time_elapsed) VALUES (%s, %s);"""
+        # for name, elapsed in results:
+        #     #x.execute(sql, (self.current, name, elapsed))
+        #     x.execute(sql, (str(name), str(elapsed),))
+        #     #print("name: " + str(name) + " time: " + str(elapsed))
+        # conn.commit()
+        # print("Succesfully inserted data.")
 
 
         # sql = """CREATE TABLE IF NOT EXISTS %s (
@@ -113,5 +135,5 @@ class CallbackModule(CallbackBase):
         #     print("Error inserting data: " + e)
 
         #print("xxxxxxxxxxxxxxx self.current: " + self.current)
-        x.close()
-        conn.close()
+        #x.close()
+        #conn.close()
