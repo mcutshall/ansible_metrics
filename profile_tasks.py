@@ -83,10 +83,10 @@ class CallbackModule(CallbackBase):
         #     print ("Error creating table: " + e)
 
         try:
-            sql = """INSERT INTO deploy_tasks (task_name, time_elapsed) VALUES (%s, %s)"""
+            sql = """INSERT INTO deploy_tasks (task_name, time_elapsed) VALUES (%s, %s);"""
             for name, elapsed in results:
                 #x.execute(sql, (self.current, name, elapsed))
-                x.execute(sql, (str(name), str(elapsed)))
+                x.execute(sql, (str(name), str(elapsed),))
                 print("name: " + str(name) + " time: " + str(elapsed))
             print("Succesfully inserted data.")
         except Exception as e:
