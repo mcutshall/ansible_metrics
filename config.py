@@ -2,7 +2,7 @@
 from configparser import ConfigParser
 
 
-def config(filename='database.ini', section='postgresql'):
+def config(filename='/opt/env/atmo_master/lib/python2.7/site-packages/subspace/plugins/callback/database.ini', section='postgresql'):
     # create a parser
     parser = ConfigParser()
     # read config file
