@@ -70,7 +70,7 @@ class CallbackModule(CallbackBase):
 
             x.close()
         except Exception as error:
-            print("Database Error: " + error)
+            print("Database Error: " + str(error))
         finally:
             if conn is not None:
                 conn.close()
