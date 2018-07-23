@@ -45,6 +45,13 @@ class CallbackModule(CallbackBase):
         if self.current is not None:
             self.stats[self.current] = time.time() - self.stats[self.current]
 
+        # Sort the tasks by their running time
+        results = sorted(
+            self.stats.items(),
+            key=lambda value: value[1],
+            reverse=True,
+        )
+
         conn = None
         x = None
         try:
@@ -62,7 +69,7 @@ class CallbackModule(CallbackBase):
             print("Succesfully inserted data.")
 
             x.close()
-        except psycopg2.DatabaseError as error:
+        except Exception as error:
             print("Database Error: " + error)
         finally:
             if conn is not None:
