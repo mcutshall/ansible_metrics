@@ -1,3 +1,6 @@
+import sys
+sys.path.append('/opt/dev/atmosphere-ansible/ansible/playbooks/instance_deploy/callback_plugins/')
+sys.path.append('/opt/env/atmo_master/lib/python2.7/site-packages/subspace/plugins/callback/')
 from ansible.plugins.callback import CallbackBase
 from config import config
 import datetime
