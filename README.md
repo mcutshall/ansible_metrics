@@ -1,3 +1,5 @@
+This plugin creates database entries for each ansible task in a playbook. The entries consist of the task name and run time. 
+
 1. Create a directory named "callback_plugins" in "/opt/dev/atmosphere-ansible/ansible/playbooks/instance_deploy/".
 2. Clone this repo to the new callback_plugins directory.
 3. Compile profile_tasks.py and config.py with "python -m py_compile <file.py>".
